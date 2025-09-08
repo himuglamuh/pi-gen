@@ -25,6 +25,7 @@ fi
 CONFIG_FILE=""
 if [ -f "${DIR}/config" ]; then
 	CONFIG_FILE="${DIR}/config"
+	echo "!!! FOUND CONFIG FILE ${CONFIG_FILE}"
 fi
 
 while getopts "c:" flag
@@ -91,7 +92,7 @@ BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 #     BASE_IMAGE=debian:trixie
 #     ;;
 # esac
-BASE_IMAGE=debian:bookworm
+BASE_IMAGE=debian:trixie
 ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
 
 if [ "${CONTAINER_EXISTS}" != "" ]; then
