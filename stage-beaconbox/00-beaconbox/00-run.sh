@@ -1,8 +1,8 @@
-OVERLAY_DIR="$(dirname "$0")/../overlay"
+OVERLAY_DIR="/pi-gen/overlay"
 
 if [ -d "${OVERLAY_DIR}" ]; then
-    echo "Applying overlay from ${OVERLAY_DIR} to ${ROOTFS_DIR}..."
-    cp -ar "${OVERLAY_DIR}/." "${ROOTFS_DIR}/"
+    echo "Applying overlay from ${OVERLAY_DIR} to /..."
+    cp -ar "${OVERLAY_DIR}/." /
 else
     echo "Overlay directory not found: ${OVERLAY_DIR}"
     exit 1
