@@ -1,9 +1,10 @@
-OVERLAY_DIR="/pi-gen/overlay"
+#!/bin/bash -e
 
-if [ -d "${OVERLAY_DIR}" ]; then
-    echo "Applying overlay from ${OVERLAY_DIR} to /..."
-    cp -ar "${OVERLAY_DIR}/." /
-else
-    echo "Overlay directory not found: ${OVERLAY_DIR}"
-    exit 1
-fi
+echo "✅ Running beaconbox stage setup..."
+
+mkdir -p "${ROOTFS_DIR}"
+
+rsync -a --chown=1000:1000 "/pi-gen/common-overlay/" "${ROOTFS_DIR}/"
+
+mkdir -p "${ROOTFS_DIR}/etc/beaconbox"
+touch "${ROOTFS_DIR}/etc/beaconbox/.installed"
