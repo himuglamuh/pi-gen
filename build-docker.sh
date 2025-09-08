@@ -92,7 +92,7 @@ BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 #     BASE_IMAGE=debian:trixie
 #     ;;
 # esac
-BASE_IMAGE=debian:trixie
+BASE_IMAGE=debian:bookworm
 ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
 
 if [ "${CONTAINER_EXISTS}" != "" ]; then
