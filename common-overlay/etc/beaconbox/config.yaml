@@ -1,7 +1,0 @@
-mode: broadcast
-ssid: "BeaconBox-%RAND%"
-hidden: false
-passphrase: "beaconbox"
-country: US
-captive: true
-gateway: false
