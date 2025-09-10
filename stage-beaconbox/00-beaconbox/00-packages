@@ -1,0 +1,10 @@
+iw
+hostapd
+dnsmasq
+caddy
+iproute2
+iptables
+net-tools
+sudo
+nano
+nftables
