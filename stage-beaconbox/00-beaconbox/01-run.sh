@@ -15,8 +15,10 @@ find "${ROOTFS_DIR}/etc/sudoers.d" -type f -exec chmod 440 {} \;
 find "${ROOTFS_DIR}/etc/systemd/system" -name '*.service' -exec chown root:root {} \;
 
 echo "👉 Setting beaconbox net and web services..."
+chroot "${ROOTFS_DIR}" systemctl disable dnsmasq.service || true
 chroot "${ROOTFS_DIR}" systemctl enable beaconbox-net.service
 chroot "${ROOTFS_DIR}" systemctl enable beaconbox-web.service
+chroot "${ROOTFS_DIR}" systemctl enable beaconbox-dns.service
 chroot "${ROOTFS_DIR}" systemctl enable nftables.service
 
 echo "👉 Touching beaconbox installed file..."
