@@ -14,9 +14,32 @@ find "${ROOTFS_DIR}/etc/sudoers.d" -type f -exec chown root:root {} \;
 find "${ROOTFS_DIR}/etc/sudoers.d" -type f -exec chmod 440 {} \;
 find "${ROOTFS_DIR}/etc/systemd/system" -name '*.service' -exec chown root:root {} \;
 
-echo "👉 Updating initramfs..."
+echo "👉 Disabling unnecessary services to speed up boot..."
 
-chroot "${ROOTFS_DIR}" update-initramfs -u
+DISABLE_SERVICES=(
+  NetworkManager-wait-online.service
+  NetworkManager.service
+  ModemManager.service
+  avahi-daemon.service
+  bluetooth.service
+  wpa_supplicant.service
+  systemd-timesyncd.service
+  alsa-restore.service
+  systemd-zram-setup@zram0.service
+  keyboard-setup.service
+  console-setup.service
+  systemd-hostnamed.service
+  udisks2.service
+  e2scrub_reap.service
+  rpi-eeprom-update.service
+  rpi-resize-swap-file.service
+  modprobe@drm.service
+)
+
+for svc in "${DISABLE_SERVICES[@]}"; do
+  echo "   ➤ Disabling $svc"
+  chroot "${ROOTFS_DIR}" systemctl disable "$svc" || true
+done
 
 echo "👉 Setting beaconbox net and web services..."
 chroot "${ROOTFS_DIR}" systemctl disable dnsmasq.service || true
