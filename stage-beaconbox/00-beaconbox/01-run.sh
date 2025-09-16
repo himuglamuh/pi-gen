@@ -8,9 +8,8 @@ echo "👉 Copying common overlay files..."
 rsync -a --chown=1000:1000 "/pi-gen/common-overlay/" "${ROOTFS_DIR}/"
 
 echo "👉 Setting sudoer permissions..."
-source "${ROOTFS_DIR}/config"
-USERNAME="${FIRST_USER_NAME}"
-echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" > "${ROOTFS_DIR}/etc/sudoers.d/010_beaconbox"
+USERNAME="${FIRST_USER_NAME:-beaconbox}"
+echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" | tee "${ROOTFS_DIR}/etc/sudoers.d/010_beaconbox" >/dev/null
 chmod 0440 "${ROOTFS_DIR}/etc/sudoers.d/010_beaconbox"
 
 echo "👉 Disabling unnecessary services to speed up boot..."
