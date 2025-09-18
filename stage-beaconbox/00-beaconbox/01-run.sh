@@ -39,6 +39,14 @@ for svc in "${DISABLE_SERVICES[@]}"; do
   chroot "${ROOTFS_DIR}" systemctl disable "$svc" || true
 done
 
+if chroot "${ROOTFS_DIR}" which caddy &>/dev/null; then
+  echo "👉 Formatting Caddyfile"
+  chroot "${ROOTFS_DIR}" caddy fmt --overwrite /etc/caddy/Caddyfile
+else
+  echo "⚠️ Caddy not installed yet in chroot. Skipping Caddyfile formatting."
+fi
+
+
 echo "👉 Setting beaconbox net and web services..."
 chroot "${ROOTFS_DIR}" systemctl disable dnsmasq.service || true
 chroot "${ROOTFS_DIR}" systemctl enable beaconbox-net.service
